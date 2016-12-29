@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+  	<meta charset="utf-8">
+    <title>新芸術校標準コース2期成果展 | ポスト真実の微熱</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+	</head>
+	<body>
+	
+	<div style="position: relative;" align="center">
+		<span style="position: absolute; left: 0px;">
+			<div id="stage"></div>
+		</span>
+	</div>
+	<br><br>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-2 hidden-xs">
+			</div>
+			<div class="col-sm-8">
+					<div class="text-center">
+					<p>テキストテキストテキスト</p>
+					<br>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					<p>テキストテキストテキスト</p>
+					</div>
+			</div>
+			<div class="col-sm-2 hidden-xs">
+			</div>
+		</div>
+	</div>
+
+  	<script src="js/three.min.js"></script>
+  	<script src="js/OrbitControls.js"></script>
+	<script src="js/ColladaLoader.js"></script>
+  	<script>
+	(function(){
+	 	var width = window.parent.screen.width,
+			height = window.parent.screen.height*2.5,
+			cube = [],
+			count = 50,
+			i,
+			cubeSize,
+			Mark_III;
+
+	 	var scene = new THREE.Scene();
+		var texture1  = new THREE.ImageUtils.loadTexture('images/DM.jpg');
+		
+		for (i = 0; i < count; i++){
+			cubeSize = r(30);
+			GrayColor = r(255);
+			var geometry = new THREE.CubeGeometry(cubeSize,cubeSize,cubeSize);
+			var material = new THREE.MeshLambertMaterial({ color: 'rgb('+GrayColor+','+GrayColor+','+GrayColor+')' });
+			var material = new THREE.MeshPhongMaterial({ map: texture1 });
+			cube[i] = new THREE.Mesh(geometry, material);
+			cube[i].castShadow = true;
+			cube[i].position.set(0,0,r(200));
+			scene.add(cube[i]);
+		}
+
+		var loader = new THREE.ColladaLoader();
+		loader.options.convertUpAxis = true;
+
+		var light = new THREE.DirectionalLight(0xffffff, 1);
+		scene.add(light);
+		var ambient = new THREE.AmbientLight(0x333333);
+		scene.add(ambient);
+
+		var camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000 );
+		camera.position.set(0, 100, 500);
+		camera.lookAt(cube[0].position);
+
+		var renderer = new THREE.WebGLRenderer();
+		renderer.setSize(width, height);
+		renderer.setClearColor(0xffffff, 1);
+		renderer.shadowMapEnabled = true;
+		document.getElementById('stage').appendChild(renderer.domElement);
+
+		function render(){
+			requestAnimationFrame(render);
+			for (i = 0; i < count; i++){
+				cube[i].rotation.x += i * Math.PI / 18000;
+				cube[i].rotation.y += i * Math.PI / 18000;
+				cube[i].rotation.z += i * Math.PI / 18000;
+				cube[i].position.x = Math.cos(new Date().getTime() / (5000+i)) * 200;
+				cube[i].position.y = Math.tan(new Date().getTime() / (10000+i)) * 200;
+				cube[i].position.z = Math.sin(new Date().getTime() / (5000+i)) * 200;
+			}
+			renderer.render(scene, camera);
+		}
+		render();
+
+		function r(n){
+				return Math.floor(Math.random() * (n + 1));
+		}
+
+	 })();
+	  </script>
+      <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
