@@ -14,6 +14,10 @@
             <div id="stage" style="position: fixed"></div>
 		<!/span>
 	</div>
+
+    <!-- スクロール量表示スペース(デバッグ用). z-index:9999で最前面に表示 -->
+    <div id="display-scroll-amount" style="position: fixed; top: 0; left: 0; z-index:9999; color:white;">scroll : 0</div>
+
 	<br><br>
 	<div class="container">
 		<div class="row">
@@ -118,6 +122,13 @@
         // 変数宣言
 	 	var width = window.parent.screen.width,
 			height = window.parent.screen.height;
+
+        // スクロール量取得
+        var scrollAmount;
+        document.addEventListener('scroll', function(){
+            scrollAmount = window.pageYOffset;
+            document.getElementById("display-scroll-amount").textContent = "scroll : " + scrollAmount.toString();
+        });
 
 	 	var scene = new THREE.Scene();
 		//var texture1  = new THREE.ImageUtils.loadTexture('images/DM.jpg');
