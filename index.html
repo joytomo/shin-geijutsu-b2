@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
   	<meta charset="utf-8">
-    <title>新芸術校標準コース2期成果展 | ポスト真実の微熱</title>
+    <title>新芸術校標準コース2期成果展 | 直接行動を待ちながら</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -138,22 +138,22 @@
         scene.add(rightWall);
         var leftWall = createWall('left');
         scene.add(leftWall); 
-        var topWall = createWall('top');
-        scene.add(topWall);
         var bottomWall = createWall('bottom');
         scene.add(bottomWall);
+        createTopWall('top');
 
 
 		var loader = new THREE.ColladaLoader();
 		loader.options.convertUpAxis = true;
 
-		var light = new THREE.DirectionalLight(0xffffff, 1);
+		var light = new THREE.DirectionalLight(0xffffff);
+        light.position.set(1,1,1).normalize();
 		scene.add(light);
 		var ambient = new THREE.AmbientLight(0x333333);
 		scene.add(ambient);
 
 		var camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000 );
-		camera.position.set(0, 0, 500);
+		camera.position.set(0, 0, 700);
 
 		var renderer = new THREE.WebGLRenderer();
 		renderer.setSize(width, height);
@@ -196,6 +196,24 @@
                     break;
             }
             return wall;
+        }
+
+        // 天井の生成
+        function createTopWall() {
+            wallSize = window.parent.screen.height*0.5;
+			beamGeometry = new THREE.CubeGeometry(wallSize*0.03 ,wallSize*0.03,wallSize);
+			beamMaterial = new THREE.MeshLambertMaterial({color:0xffff00});
+            for(i=0; i<6; i++) {
+               beam = new THREE.Mesh(beamGeometry, beamMaterial);
+			   beam.castShadow = true;
+		       beam.position.set(wallSize*0.4-wallSize/6*i,wallSize*0.5 ,0);
+               scene.add(beam);
+            }
+            wallBeamGeometry = new THREE.CubeGeometry(wallSize, wallSize*0.05 ,wallSize*0.05);
+            wallBeam = new THREE.Mesh(wallBeamGeometry, beamMaterial);
+			wallBeam.castShadow = true;
+		    wallBeam.position.set(0, wallSize*0.5, -wallSize*0.5);
+            scene.add(wallBeam);
         }
 
         // 乱数を返却
