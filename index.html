@@ -140,7 +140,7 @@
         scene.add(bottomWall);
         createTopWall();
         createRightWall();
-
+        createOverWallSpace();
 
 		var loader = new THREE.ColladaLoader();
 		loader.options.convertUpAxis = true;
@@ -221,6 +221,36 @@
 			wall.castShadow = true;
 			wall.position.set(wallSize*0.5,-wallSize*0.2,0);
             scene.add(wall);
+        }
+
+        // 天井と右壁面から見える空間の生成
+        function createOverWallSpace() {
+            wallSize = window.parent.screen.height*0.5;
+			wallMaterial = new THREE.MeshLambertMaterial({color:0xeeeeee});
+            // 正面の窓から上の壁面
+			frontWall0 = new THREE.Mesh(
+			    new THREE.CubeGeometry(wallSize,wallSize,10),
+                wallMaterial
+            );
+			frontWall0.castShadow = true;
+			frontWall0.position.set(0,wallSize,-wallSize*0.5);
+            scene.add(frontWall0);
+            // 正面の窓から右に広がる壁面
+			frontWall1 = new THREE.Mesh(
+			    new THREE.CubeGeometry(wallSize,wallSize*3,10),
+                wallMaterial
+            );
+			frontWall1.castShadow = true;
+			frontWall1.position.set(wallSize,wallSize,-wallSize*0.5);
+            scene.add(frontWall1);
+            // 左の上の壁面
+			leftWall = new THREE.Mesh(
+			    new THREE.CubeGeometry(10,wallSize,wallSize),
+                wallMaterial
+            );
+			leftWall.castShadow = true;
+			leftWall.position.set(-wallSize*0.5,wallSize,.0);
+            scene.add(leftWall);
         }
 
         // 乱数を返却
