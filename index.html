@@ -136,7 +136,7 @@
 			height = window.innerHeight;
 
         // スクロール量取得
-        var scrollAmount;
+        var scrollAmount = 0;
         document.addEventListener('scroll', function(){
             scrollAmount = window.pageYOffset;
             document.getElementById("display-scroll-amount").textContent = "scroll : " + scrollAmount.toString();
@@ -168,8 +168,7 @@
 		var ambient = new THREE.AmbientLight(0x333333);
 		scene.add(ambient);
 
-		var camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000 );
-		camera.position.set(0, 0, height*0.8);
+		var camera = new THREE.PerspectiveCamera(45, width / height, 1, 3000 );
 
 		var renderer = new THREE.WebGLRenderer();
 		renderer.setSize(width, height);
@@ -179,6 +178,9 @@
 
         // 毎フレーム呼び出される関数
 		function render(){
+            // カメラを試しに動かしてみてます。後で変えます。
+		    camera.position.set(-Math.sin(scrollAmount*0.001)*500, 0, Math.cos(scrollAmount*0.001)*500);
+            camera.lookAt({x:0,y:0,z:0});
 			requestAnimationFrame(render);
 			renderer.render(scene, camera);
 		}
