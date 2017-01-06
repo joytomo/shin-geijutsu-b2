@@ -19,10 +19,13 @@
 
 	<br><br>
 	<div class="container">
-		<div class="row" style="margin-top:1000px">
+		<div style="margin-top:1000px">
+          <div class="col-sm-12">
+            <p><img src="images/title.png" class="img-responsive"></p>
+          </div>
 			<div class="col-sm-4 hidden-xs">
 			</div>
-			<div class="col-sm-8" style="background-color:rgba(255,255,255,0.8); padding:50px">
+			<div class="col-sm-8" style="background-color:rgba(255,255,255,0.8); padding:50px;">
               <h1>PROLOGUE</h1>
 			    <div class="text-left">
                   　ひとりの男が新芸術校にやって来た。男は常に非常事態に備えていた。いつもカジュアルな喪服を着ていた。場違いな服装は雑居ビルのエレベーターを昇った。ハッとした。香典袋を忘れたのだ。受付で赤面していた刹那、鍵の閉まる音。閉じ込められた。青息吐息。しかし男はホッとした。男は避難して来たのだ。避難しない者たちから。鈍感、生温い風、居心地良さ、不甲斐無さから。ああ、これで安全だ。外は危険だ。中は平安だ。男は平安なシェルターでくつろぐ。壇上ではカジュアルな袈裟の主任講師がお経を唱えている。よく聞くと現代美術について語っている。饒舌に。参列者も大勢いた。</br>
@@ -86,10 +89,10 @@
 （文・五十嵐大輔　佐藤碧紗）
                 </div>
 			</div>
-		</div>
-        <div class="col-sm-12" style="background-color:rgba(255,255,255,0.8); margin-top:50px; padding:20px">
+        <div class="col-sm-2 hidden-xs"></div>
+        <div class="col-sm-8" style="background-color:rgba(255,255,255,0.8); margin-top:50px; padding:20px">
           <h1>ARTISTS</h1>
-          <div class="col-sm-3">
+          <div class="col-sm-6">
             秋山佑太</br>
             五十嵐大輔</br>
             石野平四郎</br>
@@ -97,17 +100,15 @@
             伊藤允彦</br>
             今井久子</br>
             遠藤蘭子</br>
-          </div>
-          <div class="col-sm-3">
             甲斐千香子</br>
             小早川太子</br>
             小林太陽</br>
             Saito Kenji</br>
             佐藤碧紗</br>
             下山由貴</br>
-            じょいとも</br>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-6">
+            じょいとも</br>
             菅谷一貴</br>
             タゴチャン</br>
             中村紗千</br>
@@ -115,8 +116,6 @@
             北條奈美</br>
             森山亜希</br>
             Yaunkur Sekine</br>
-          </div>
-          <div class="col-sm-3">
             安本啓希</br>
             Yuka Watanabe</br>
             吉田無能</br>
@@ -124,6 +123,7 @@
           </div>
           </div>
         </div>
+        <div class="col-sm-2 hidden-xs"></div>
 	</div>
 
   	<script src="js/three.min.js"></script>
@@ -145,23 +145,26 @@
 	 	var scene = new THREE.Scene();
 		
         // 壁面
-        var leftWall = createWall('left');
-        scene.add(leftWall); 
         var bottomWall = createWall('bottom');
         scene.add(bottomWall);
         createTopWall();
         createRightWall();
+        createLeftWall();
         createOverWallSpace();
 
 		var loader = new THREE.ColladaLoader();
 		loader.options.convertUpAxis = true;
 
-		var light0 = new THREE.DirectionalLight(0x888888);
+        // 照明の設定
+		var light0 = new THREE.DirectionalLight(0x666666);
         light0.position.set(1,1,1).normalize();
 		scene.add(light0);
-		var light1 = new THREE.DirectionalLight(0x888888);
+		var light1 = new THREE.DirectionalLight(0x666666);
         light1.position.set(1,-1,1).normalize();
 		scene.add(light1);
+		var light2 = new THREE.DirectionalLight(0x666666);
+        light2.position.set(1,0,1).normalize();
+		scene.add(light2);
 		var ambient = new THREE.AmbientLight(0x333333);
 		scene.add(ambient);
 
@@ -192,9 +195,6 @@
 			wall = new THREE.Mesh(wallGeometry, wallMaterial);
 			wall.castShadow = true;
             switch(wallPosition) {
-                case 'left':
-			        wall.position.set(-wallSize*0.5,0,0);
-                    break;
                 case 'bottom':
 			        wall.position.set(0,-wallSize*0.5,0);
                     wall.rotation.z =  Math.PI / 2;
@@ -230,6 +230,19 @@
             );
 			wall.castShadow = true;
 			wall.position.set(wallSize*0.5,-wallSize*0.2,0);
+            scene.add(wall);
+        }
+
+        // 左壁面の生成
+        function createLeftWall() {
+            wallSize = height*0.5;
+			wallMaterial = new THREE.MeshLambertMaterial({color:0x888888});
+			wall = new THREE.Mesh(
+			    new THREE.CubeGeometry(10,wallSize,wallSize),
+			    wallMaterial
+            );
+			wall.castShadow = true;
+			wall.position.set(-wallSize*0.5,0,0);
             scene.add(wall);
         }
 
