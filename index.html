@@ -237,13 +237,38 @@
         function createLeftWall() {
             wallSize = height*0.5;
 			wallMaterial = new THREE.MeshLambertMaterial({color:0x888888});
-			wall = new THREE.Mesh(
-			    new THREE.CubeGeometry(10,wallSize,wallSize),
+            // 窓から右の部分
+			wallRight = new THREE.Mesh(
+			    new THREE.CubeGeometry(10,wallSize,wallSize*0.2),
 			    wallMaterial
             );
-			wall.castShadow = true;
-			wall.position.set(-wallSize*0.5,0,0);
-            scene.add(wall);
+			wallRight.castShadow = true;
+			wallRight.position.set(-wallSize*0.5,0,-wallSize*0.4);
+            scene.add(wallRight);
+            // 窓から左の部分
+			wallLeft = new THREE.Mesh(
+			    new THREE.CubeGeometry(10,wallSize,wallSize*0.2),
+			    wallMaterial
+            );
+			wallLeft.castShadow = true;
+			wallLeft.position.set(-wallSize*0.5,0,wallSize*0.4);
+            scene.add(wallLeft);
+            // 窓から下の部分
+			wallButtom = new THREE.Mesh(
+			    new THREE.CubeGeometry(10,wallSize*0.1,wallSize*0.6),
+			    wallMaterial
+            );
+			wallButtom.castShadow = true;
+			wallButtom.position.set(-wallSize*0.5,-wallSize*0.45,0);
+            scene.add(wallButtom);
+            // 窓から上の部分
+			wallTop = new THREE.Mesh(
+			    new THREE.CubeGeometry(10,wallSize*0.2,wallSize*0.6),
+			    wallMaterial
+            );
+			wallTop.castShadow = true;
+			wallTop.position.set(-wallSize*0.5,wallSize*0.4,0);
+            scene.add(wallTop);
         }
 
         // 天井と右壁面から見える空間の生成
