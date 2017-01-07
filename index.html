@@ -20,7 +20,7 @@
 	<br><br>
 	<div class="container">
 		<div style="margin-top:1000px">
-          <div class="col-sm-12">
+          <div class="col-sm-12" style="margin-bottom:500px">
             <p><img src="images/title.png" class="img-responsive"></p>
           </div>
 			<div class="col-sm-4 hidden-xs">
@@ -181,6 +181,7 @@
         createTopWall();
         createRightWall();
         createLeftWall();
+        createFrontWall();
         createOverWallSpace();
 
 		var loader = new THREE.ColladaLoader();
@@ -301,6 +302,44 @@
             );
 			wallTop.castShadow = true;
 			wallTop.position.set(-wallSize*0.5,wallSize*0.4,0);
+            scene.add(wallTop);
+        }
+
+        // 正面壁面の生成
+        function createFrontWall() {
+            wallSize = height*0.5;
+			wallMaterial = new THREE.MeshLambertMaterial({color:0x888888});
+            // 窓から右の部分
+			wallRight = new THREE.Mesh(
+			    new THREE.CubeGeometry(wallSize*0.1,wallSize,10),
+			    wallMaterial
+            );
+			wallRight.castShadow = true;
+			wallRight.position.set(-wallSize*0.45,0,-wallSize*0.5);
+            scene.add(wallRight);
+            // 窓から左の部分
+			wallLeft = new THREE.Mesh(
+			    new THREE.CubeGeometry(wallSize*0.1,wallSize,10),
+			    wallMaterial
+            );
+			wallLeft.castShadow = true;
+			wallLeft.position.set(wallSize*0.45,0,-wallSize*0.5);
+            scene.add(wallLeft);
+            // 窓から下の部分
+			wallButtom = new THREE.Mesh(
+			    new THREE.CubeGeometry(wallSize,wallSize*0.1,10),
+			    wallMaterial
+            );
+			wallButtom.castShadow = true;
+			wallButtom.position.set(0,-wallSize*0.45,-wallSize*0.5);
+            scene.add(wallButtom);
+            // 窓から上の部分
+			wallTop = new THREE.Mesh(
+			    new THREE.CubeGeometry(wallSize,wallSize*0.1,10),
+			    wallMaterial
+            );
+			wallTop.castShadow = true;
+			wallTop.position.set(0,wallSize*0.45,-wallSize*0.5);
             scene.add(wallTop);
         }
 
