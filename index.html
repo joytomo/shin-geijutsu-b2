@@ -176,13 +176,12 @@
 	 	var scene = new THREE.Scene();
 		
         // 壁面
-        var bottomWall = createWall('bottom');
-        scene.add(bottomWall);
         createTopWall();
         createRightWall();
         createLeftWall();
         createFrontWall();
         createOverWallSpace();
+        createFloor();
 
 		var loader = new THREE.ColladaLoader();
 		loader.options.convertUpAxis = true;
@@ -217,25 +216,6 @@
 			renderer.render(scene, camera);
 		}
 		render();
-
-        // 壁面を生成する
-        function createWall(wallPosition) {
-            var wallSize = height*0.5;
-			var wallColor = 155;
-			var wallGeometry = new THREE.CubeGeometry(10,wallSize,wallSize);
-			var wallMaterial = new THREE.MeshLambertMaterial(
-                { color: 'rgb('+wallColor+','+wallColor+','+wallColor+')' }
-            );
-			wall = new THREE.Mesh(wallGeometry, wallMaterial);
-			wall.castShadow = true;
-            switch(wallPosition) {
-                case 'bottom':
-			        wall.position.set(0,-wallSize*0.5,0);
-                    wall.rotation.z =  Math.PI / 2;
-                    break;
-            }
-            return wall;
-        }
 
         // 天井の生成
         function createTopWall() {
@@ -371,6 +351,54 @@
 			leftWall.castShadow = true;
 			leftWall.position.set(-wallSize*0.5,wallSize,.0);
             scene.add(leftWall);
+        }
+
+        // 床(プール)の生成
+        function createFloor() {
+            poolRatio = 0.3; // 1で全面床、0で全面プール。プールの縁を壁から poolRatio*(床の１辺の長さの半分) だけせり出すという意味
+            wallSize = height*0.5;
+			wallMaterial = new THREE.MeshLambertMaterial({color:0xeeeeee});
+            // 正面向かって左の床
+			leftFloor = new THREE.Mesh(
+			    new THREE.CubeGeometry(poolRatio/2.0*wallSize,10,wallSize),
+                wallMaterial
+            );
+			leftFloor.castShadow = true;
+			leftFloor.position.set((poolRatio/4.0-0.5)*wallSize,-0.5*wallSize,0);
+            scene.add(leftFloor);
+            // 正面向かって右の床
+			rightFloor = new THREE.Mesh(
+			    new THREE.CubeGeometry(poolRatio/2.0*wallSize,10,wallSize),
+                wallMaterial
+            );
+			rightFloor.castShadow = true;
+			rightFloor.position.set((0.5-poolRatio/4.0)*wallSize,-0.5*wallSize,0);
+            scene.add(rightFloor);
+            // 正面向かって手前の床
+			frontFloor = new THREE.Mesh(
+			    new THREE.CubeGeometry(wallSize,10,poolRatio/2.0*wallSize),
+                wallMaterial
+            );
+			frontFloor.castShadow = true;
+			frontFloor.position.set(0,-0.5*wallSize,(0.5-poolRatio/4.0)*wallSize);
+            scene.add(frontFloor);
+            // 正面向かって奥の床
+			backFloor = new THREE.Mesh(
+			    new THREE.CubeGeometry(wallSize,10,poolRatio/2.0*wallSize),
+                wallMaterial
+            );
+			backFloor.castShadow = true;
+			backFloor.position.set(0,-0.5*wallSize,(poolRatio/4.0-0.5)*wallSize);
+            scene.add(backFloor);
+            // 簡易版プールの生成
+			waterMaterial = new THREE.MeshLambertMaterial({color:0x0000ee});
+			water = new THREE.Mesh(
+			    new THREE.CubeGeometry((1.0-poolRatio)*wallSize,5,(1.0-poolRatio)*wallSize),
+                waterMaterial
+            );
+			water.castShadow = true;
+            water.position.set(0,-0.5*wallSize,0);
+            scene.add(water);
         }
 
         // 乱数を返却
