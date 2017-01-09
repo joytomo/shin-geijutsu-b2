@@ -295,38 +295,36 @@
         function createFrontWall() {
             wallSize = height*0.5;
 			wallMaterial = new THREE.MeshLambertMaterial({color:0x888888});
-            // 窓から右の部分
-			wallRight = new THREE.Mesh(
-			    new THREE.CubeGeometry(wallSize*0.1,wallSize,10),
-			    wallMaterial
-            );
-			wallRight.castShadow = true;
-			wallRight.position.set(-wallSize*0.45,0,-wallSize*0.5);
-            scene.add(wallRight);
-            // 窓から左の部分
-			wallLeft = new THREE.Mesh(
-			    new THREE.CubeGeometry(wallSize*0.1,wallSize,10),
-			    wallMaterial
-            );
-			wallLeft.castShadow = true;
-			wallLeft.position.set(wallSize*0.45,0,-wallSize*0.5);
-            scene.add(wallLeft);
-            // 窓から下の部分
-			wallButtom = new THREE.Mesh(
-			    new THREE.CubeGeometry(wallSize,wallSize*0.1,10),
-			    wallMaterial
-            );
-			wallButtom.castShadow = true;
-			wallButtom.position.set(0,-wallSize*0.45,-wallSize*0.5);
-            scene.add(wallButtom);
-            // 窓から上の部分
-			wallTop = new THREE.Mesh(
-			    new THREE.CubeGeometry(wallSize,wallSize*0.1,10),
-			    wallMaterial
-            );
-			wallTop.castShadow = true;
-			wallTop.position.set(0,wallSize*0.45,-wallSize*0.5);
-            scene.add(wallTop);
+            walls = [];
+            rightWall = {
+              width:wallSize*0.1, height:wallSize, depth:10,
+              x:-wallSize*0.45, y:0, z:-wallSize*0.5
+            };
+            walls.push(rightWall);
+            leftWall = {
+              width:wallSize*0.1, height:wallSize, depth:10,
+              x:wallSize*0.45, y:0, z:-wallSize*0.5
+            };
+            walls.push(leftWall);
+            buttomWall = {
+              width:wallSize, height:wallSize*0.1, depth:10,
+              x:0, y:-wallSize*0.45, z:-wallSize*0.5
+            };
+            walls.push(buttomWall);
+            topWall = {
+              width:wallSize, height:wallSize*0.1, depth:10,
+              x:0, y:wallSize*0.45, z:-wallSize*0.5
+            };
+            walls.push(topWall);
+            walls.forEach(function(status) {
+			    wall = new THREE.Mesh(
+			        new THREE.CubeGeometry(status.width,status.height,status.depth),
+			        wallMaterial
+                );
+			    wall.castShadow = true;
+			    wall.position.set(status.x,status.y,status.z);
+                scene.add(wall);
+            });
         }
 
         // 天井と右壁面から見える空間の生成
