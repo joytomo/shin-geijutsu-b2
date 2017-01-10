@@ -25,12 +25,12 @@
 	<br><br>
 	<div class="container">
 		<div style="margin-top:1000px">
-          <div class="col-sm-12" style="margin-bottom:500px">
+          <div class="col-sm-12" id="title" style="margin-bottom:500px">
             <p><img src="images/title.png" class="img-responsive"></p>
           </div>
 			<div class="col-sm-4 hidden-xs">
 			</div>
-			<div class="col-sm-8" style="background-color:rgba(255,255,255,0.8); padding:50px;">
+			<div id="statement" class="col-sm-8" style="background-color:rgba(255,255,255,0.8); padding:50px;">
               <h1>PROLOGUE</h1>
 			    <div class="text-left">
                   　ひとりの男が新芸術校にやって来た。男は常に非常事態に備えていた。いつもカジュアルな喪服を着ていた。場違いな服装は雑居ビルのエレベーターを昇った。ハッとした。香典袋を忘れたのだ。受付で赤面していた刹那、鍵の閉まる音。閉じ込められた。青息吐息。しかし男はホッとした。男は避難して来たのだ。避難しない者たちから。鈍感、生温い風、居心地良さ、不甲斐無さから。ああ、これで安全だ。外は危険だ。中は平安だ。男は平安なシェルターでくつろぐ。壇上ではカジュアルな袈裟の主任講師がお経を唱えている。よく聞くと現代美術について語っている。饒舌に。参列者も大勢いた。</br>
@@ -95,7 +95,7 @@
                 </div>
 			</div>
         <div class="col-sm-2 hidden-xs"></div>
-        <div class="col-sm-8 text-left" style="background-color:rgba(255,255,255,0.8); margin-top:50px; padding:50px">
+        <div id="artists" class="col-sm-8 text-left" style="background-color:rgba(255,255,255,0.8); margin-top:50px; padding:50px">
           <h1>ARTISTS</h1>
           <div class="col-sm-6" style="padding:0">
             秋山佑太</br>
@@ -130,9 +130,19 @@
         </div>
         <div class="col-sm-2 hidden-xs"></div>
 
+        <div class="col-sm-4 hidden-xs"></div>
+		<div id="about" class="col-sm-8" style="background-color:rgba(255,255,255,0.8); margin-top:50px; padding:50px;">
+            <h1>開催概要</h1>
+        </div>
+
+        <div class="col-sm-2 hidden-xs"></div>
+        <div id="schedule" class="col-sm-8 text-left" style="background-color:rgba(255,255,255,0.8); margin-top:50px; padding:50px">
+            <h1>日程の詳細</h1>
+        </div>
+
 		<div class="col-sm-4 hidden-xs">
 		</div>
-		<div class="col-sm-8" style="background-color:rgba(255,255,255,0.8); margin-top:50px; padding:50px;">
+		<div id="access" class="col-sm-8" style="background-color:rgba(255,255,255,0.8); margin-top:50px; padding:50px;">
             <h1>ACCESS</h1>
 		    <div class="text-left">
                 <h3>ゲンロンカフェ</h3>
@@ -165,6 +175,7 @@
   	<script src="js/three.min.js"></script>
   	<script src="js/OrbitControls.js"></script>
 	<script src="js/ColladaLoader.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
   	<script>
 	(function(){
         // 変数宣言
@@ -178,8 +189,24 @@
             document.getElementById("display-scroll-amount").textContent = "scroll : " + scrollAmount.toString();
         });
 
+        // 基本情報が載っているHTML要素の位置を取得
+        var title_position = $("#title").position().top;
+        var artists_position = $("#artists").position().top;
+        var statement_position = $("#statement").position().top;
+        var about_position = $("#about").position().top;
+        var schedule_position = $("#schedule").position().top;
+        var access_position = $("#access").position().top;
+        // 取得した位置をデバッグ用にコンソールに出力
+        console.log("--Positions--");
+        console.log("title : " + title_position);
+        console.log("statement : " + statement_position);
+        console.log("artists : " + artists_position);
+        console.log("about : " + about_position);
+        console.log("schedule : " + schedule_position);
+        console.log("access : " + access_position);
+
 	 	var scene = new THREE.Scene();
-		
+
         // 壁面
         createTopWall();
         createRightWall();
@@ -429,7 +456,6 @@
 
 	 })();
 	  </script>
-      <script src="https://code.jquery.com/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
