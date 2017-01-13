@@ -615,15 +615,11 @@
             var loader = THREE.ColladaLoader();
             loader.options.convertUpAxis = true;
             loader.load('models/mt_fuji.dae', function(collada) {
-                //mtFuji = collada.scene;
-                //mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = 1;
-                //mtFuji.position.set(0, 0, 0);
-                //scene.add(mtFuji);
-                var mesh  = new THREE.Object3D();
-                var model = collada.scene;
-                model.scale.x = model.scale.y = model.scale.z = 0.3;
-                mesh.add(model);
-                scene.add(mesh);                
+                mtFuji = collada.scene;
+                mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = 1;
+                mtFuji.position.set(0, 0, 0);
+                mtFuji.updateMatrix();
+                scene.add(mtFuji);
             });
         }
 
