@@ -226,6 +226,7 @@
         transparentMaterial = new THREE.MeshPhongMaterial( { transparent : true, opacity: 0.0 } ); // 透明なマテリアル。グラフィック素材用
         textureDinasaur1 = tLoader.load('images/dinosaur01.png',createDinasaur1);
         createMtFuji();
+        createMtFuji2();
 
 		var loader = new THREE.ColladaLoader();
 		loader.options.convertUpAxis = true;
@@ -608,6 +609,19 @@
             bottomOfMtFuji.position.set(-150,fujiHeight*(1-fujiRatio)/2-height/4,-800);
             scene.add(bottomOfMtFuji);
         }
+
+        function createMtFuji2() {
+            var mtFuji;
+            var loader = THREE.ColladaLoader();
+            loader.options.convertUpAxis = true;
+            loader.load('models/mt_fuji.dae', function(collada) {
+                mtFuji = collada.scene;
+                mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = 1;
+                mtFuji.position.set(0, 0, 0);
+                scene.add(mtFuji);
+            });
+        }
+
         // 乱数を返却
 		function r(n){
 				return Math.floor(Math.random() * (n + 1));
