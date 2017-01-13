@@ -220,13 +220,10 @@
 
 	 	var scene = new THREE.Scene();
 
-        // 壁面
-        createTopWall();
-        createRightWall();
-        createLeftWall();
-        createFrontWall();
-        createOverWallSpace();
-        createFloor();
+        // テクスチャ読み込み
+        var tLoader = new THREE.TextureLoader();
+        texture = tLoader.load('images/wall01.png',createWalls);
+
         createMtFuji();
 
 		var loader = new THREE.ColladaLoader();
@@ -350,6 +347,34 @@
                 }
             }
         }
+        
+        // 壁面の生成まとめ
+        function createWalls(){
+            // 読み込んだテクスチャを複製
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            textureLSWall = texture.clone(); // 左の壁面用
+            textureLLWall = texture.clone(); // 左の壁面用
+            textureRWall = texture.clone(); // 右の壁面用
+            textureFWall = texture.clone(); // 正面奥の壁面用
+            // コピーした時のおまじない。これがないとコピーに施した変更が反映されない
+            textureLSWall.needsUpdate = true;
+            textureLLWall.needsUpdate = true;
+            textureRWall.needsUpdate = true;
+            textureFWall.needsUpdate = true;
+            // 繰り返し回数の設定
+            textureLSWall.repeat.set( 5, 2 );
+            textureLLWall.repeat.set( 2, 8 );
+            textureRWall.repeat.set( 7, 6 );
+            textureFWall.repeat.set( 1, 12 );
+            // 壁面の生成
+            createTopWall();
+            createRightWall();
+            createLeftWall();
+            createFrontWall();
+            createOverWallSpace();
+            createFloor();
+        }
 
         // 天井の生成
         function createTopWall() {
@@ -374,7 +399,7 @@
             wallSize = height*0.5;
 			wall = new THREE.Mesh(
 			    new THREE.CubeGeometry(10,wallSize*0.6,wallSize),
-			    new THREE.MeshLambertMaterial({color:0x888888})
+			    new THREE.MeshLambertMaterial({map:textureRWall})
             );
 			wall.castShadow = true;
 			wall.position.set(wallSize*0.5,-wallSize*0.2,0);
@@ -385,31 +410,41 @@
         function createLeftWall() {
             wallSize = height*0.5;
 			wallMaterial = new THREE.MeshLambertMaterial({color:0x888888});
-            walls = [];
+            longWalls = [];
+            shortWalls = [];
             rightWall = {
               width:10, height:wallSize, depth:wallSize*0.2,
               x:-wallSize*0.5, y:0, z:-wallSize*0.4
             }
-            walls.push(rightWall);
+            longWalls.push(rightWall);
             leftWall = {
               width:10, height:wallSize, depth:wallSize*0.2,
               x:-wallSize*0.5, y:0, z:wallSize*0.4
             }
-            walls.push(leftWall);
+            longWalls.push(leftWall);
             buttomWall = {
               width:10, height:wallSize*0.1, depth:wallSize*0.6,
               x:-wallSize*0.5, y:-wallSize*0.45, z:0
             }
-            walls.push(buttomWall);
+            shortWalls.push(buttomWall);
             topWall = {
               width:10, height:wallSize*0.2, depth:wallSize*0.6,
               x:-wallSize*0.5, y:wallSize*0.4, z:0
             }
-            walls.push(topWall);
-            walls.forEach(function(status) {
+            shortWalls.push(topWall);
+            longWalls.forEach(function(status) {
 			    wall = new THREE.Mesh(
 			        new THREE.CubeGeometry(status.width,status.height,status.depth),
-			        new THREE.MeshLambertMaterial({color:0x888888})
+			        new THREE.MeshLambertMaterial({map:textureLLWall})
+                );
+			    wall.castShadow = true;
+			    wall.position.set(status.x,status.y,status.z);
+                scene.add(wall);
+            });
+            shortWalls.forEach(function(status) {
+			    wall = new THREE.Mesh(
+			        new THREE.CubeGeometry(status.width,status.height,status.depth),
+			        new THREE.MeshLambertMaterial({map:textureLSWall})
                 );
 			    wall.castShadow = true;
 			    wall.position.set(status.x,status.y,status.z);
@@ -422,31 +457,35 @@
             wallSize = height*0.5;
             walls = [];
             rightWall = {
-              width:wallSize*0.1, height:wallSize, depth:10,
-              x:-wallSize*0.45, y:0, z:-wallSize*0.5
+              width:wallSize*0.1, height:wallSize, depth:10-0.1, // テクスチャがちらつくため少しだけ厚さを小さく
+              x:-wallSize*0.45, y:0, z:-wallSize*0.5, rotation: false
             };
             walls.push(rightWall);
             leftWall = {
-              width:wallSize*0.1, height:wallSize, depth:10,
-              x:wallSize*0.45, y:0, z:-wallSize*0.5
+              width:wallSize*0.1, height:wallSize, depth:10-0.1, // テクスチャがちらつくため少しだけ厚さを小さく
+              x:wallSize*0.45, y:0, z:-wallSize*0.5, rotation: false
             };
             walls.push(leftWall);
             buttomWall = {
-              width:wallSize, height:wallSize*0.1, depth:10,
-              x:0, y:-wallSize*0.45, z:-wallSize*0.5
+              width:wallSize*0.1, height:wallSize, depth:10,
+              x:0, y:-wallSize*0.45, z:-wallSize*0.5, rotation: true
             };
             walls.push(buttomWall);
             topWall = {
-              width:wallSize, height:wallSize*0.1, depth:10,
-              x:0, y:wallSize*0.45, z:-wallSize*0.5
+              width:wallSize*0.1, height:wallSize, depth:10,
+              x:0, y:wallSize*0.45, z:-wallSize*0.5, rotation: true
             };
             walls.push(topWall);
             walls.forEach(function(status) {
 			    wall = new THREE.Mesh(
 			        new THREE.CubeGeometry(status.width,status.height,status.depth),
-			        new THREE.MeshLambertMaterial({color:0x888888})
+			        new THREE.MeshLambertMaterial({map:textureFWall})
                 );
 			    wall.castShadow = true;
+                if(status.rotation==true){
+                    console.log(1);
+                    wall.rotation.set(0,0,Math.PI/2.0);
+                }
 			    wall.position.set(status.x,status.y,status.z);
                 scene.add(wall);
             });
