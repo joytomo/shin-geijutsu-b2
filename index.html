@@ -223,7 +223,8 @@
         // テクスチャ読み込み
         var tLoader = new THREE.TextureLoader();
         texture = tLoader.load('images/wall01.png',createWalls);
-
+        transparentMaterial = new THREE.MeshPhongMaterial( { transparent : true, opacity: 0.0 } ); // 透明なマテリアル。グラフィック素材用
+        textureDinasaur1 = tLoader.load('images/dinosaur01.png',createDinasaur1);
         createMtFuji();
 
 		var loader = new THREE.ColladaLoader();
@@ -567,6 +568,24 @@
 			water.castShadow = true;
             water.position.set(0,-0.5*wallSize,0);
             scene.add(water);
+        }
+        // 恐竜1の生成
+        function createDinasaur1(){
+            // 長方形6面のマテリアルを別々に設定
+            var materials = [
+                transparentMaterial,
+                transparentMaterial,
+                transparentMaterial,
+                transparentMaterial,
+                new THREE.MeshBasicMaterial( { map:textureDinasaur1 ,transparent:true}),
+                transparentMaterial
+            ];
+            var cubeSidesMaterial = new THREE.MultiMaterial( materials );
+            var cubeGeometry = new THREE.CubeGeometry( 100, 100, 1);
+            var cubeMesh = new THREE.Mesh( cubeGeometry, cubeSidesMaterial );
+            scene.add( cubeMesh );
+            cubeMesh.position.set(0, -90, -100);
+            cubeMesh.scale.set(1, 1.4, 1);
         }
         // 富士山の生成
         function createMtFuji(){
