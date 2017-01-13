@@ -259,7 +259,7 @@
 		var renderer = new THREE.WebGLRenderer();
 		renderer.setSize(width, height);
 		renderer.setClearColor(0xffffff, 1);
-		renderer.shadowMapEnabled = true;
+		renderer.shadowMap.enabled = true;
 		document.getElementById('stage').appendChild(renderer.domElement);
 
         // 毎フレーム呼び出される関数
