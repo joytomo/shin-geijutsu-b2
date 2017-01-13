@@ -246,7 +246,7 @@
 		scene.add(ambient);
 
         // カメラの設定
-		var camera = new THREE.PerspectiveCamera(45, width / height, 1, 3000 );
+		var camera = new THREE.PerspectiveCamera(45, width / height, 1, 4000 );
         var cameraPosition = new THREE.Vector3(0, 0, 500); // カメラの位置
         var cameraDirection = new THREE.Vector3(0, 0, -1); // カメラの向き
         var cameraPosComp = new THREE.Vector3(0, 0, 500); // カメラの位置の目標値
@@ -618,8 +618,8 @@
             loader.options.convertUpAxis = true;
             loader.load('models/mt_fuji.dae', function(collada) {
                 mtFuji = collada.scene;
-                mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = 20;
-                mtFuji.position.set(fujiSize*1.5,-fujiSize*0.5,-fujiSize*4);
+                mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = 25;
+                mtFuji.position.set(fujiSize*2,-fujiSize*0.6,-fujiSize*5);
                 scene.add(mtFuji);
             });
         }
