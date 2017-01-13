@@ -227,6 +227,7 @@
         textureDinasaur1 = tLoader.load('images/dinosaur01.png',createDinasaur1);
         //createMtFuji();
         createMtFuji2();
+        createSea();
 
 		var loader = new THREE.ColladaLoader();
 		loader.options.convertUpAxis = true;
@@ -621,6 +622,18 @@
                 mtFuji.position.set(fujiSize*1.5,-fujiSize*0.5,-fujiSize*4);
                 scene.add(mtFuji);
             });
+        }
+
+        function createSea() {
+            seaSize = height*10;
+            // 正面向かって手前の床
+			sea = new THREE.Mesh(
+			    new THREE.CubeGeometry(seaSize,10,seaSize),
+                new THREE.MeshLambertMaterial({color:0x0000ee})
+            );
+			sea.castShadow = true;
+			sea.position.set(0,-height*0.3,0);
+            scene.add(sea);
         }
 
         // 乱数を返却
