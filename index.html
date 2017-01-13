@@ -618,7 +618,7 @@
             loader.options.convertUpAxis = true;
             loader.load('models/mt_fuji.dae', function(collada) {
                 mtFuji = collada.scene;
-                mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = 25;
+                mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = height/40;
                 mtFuji.position.set(fujiSize*2,-fujiSize*0.6,-fujiSize*5);
                 scene.add(mtFuji);
             });
