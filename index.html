@@ -611,13 +611,14 @@
         }
 
         function createMtFuji2() {
+          fujiSize = height;
             var mtFuji;
             var loader = THREE.ColladaLoader();
             loader.options.convertUpAxis = true;
             loader.load('models/mt_fuji.dae', function(collada) {
                 mtFuji = collada.scene;
-                mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = 30;
-                mtFuji.position.set(-150,-10,-800);
+                mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = 4;
+                mtFuji.position.set(0,-fujiSize*0.2,-fujiSize);
                 scene.add(mtFuji);
             });
         }
