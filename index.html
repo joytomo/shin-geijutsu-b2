@@ -244,6 +244,7 @@
         texture = tLoader.load('images/wall01.png',createWalls);
         transparentMaterial = new THREE.MeshPhongMaterial( { transparent : true, opacity: 0.0 } ); // 透明なマテリアル。グラフィック素材用
         textureDinasaur1 = tLoader.load('images/dinosaur01.png',createDinasaur1);
+        textureDinasaur23 = tLoader.load('images/dinosaur02.png',createDinasaur23);
         //createMtFuji();
         createMtFuji2();
         createSea();
@@ -387,7 +388,7 @@
             // 繰り返し回数の設定
             textureLSWall.repeat.set( 5, 2 );
             textureLLWall.repeat.set( 2, 8 );
-            textureRWall.repeat.set( 7, 6 );
+            textureRWall.repeat.set( 4, 2 );
             textureFWall.repeat.set( 1, 12 );
             // 壁面の生成
             createTopWall();
@@ -419,13 +420,36 @@
         // 右壁面の生成
         function createRightWall() {
             wallSize = height*0.5;
-			wall = new THREE.Mesh(
-			    new THREE.CubeGeometry(10,wallSize*0.6,wallSize),
+            // カメラが右壁面を向いている時に上側の壁
+			topWall = new THREE.Mesh(
+			    new THREE.CubeGeometry(10,110-wallSize*0.2,wallSize/2.0),
 			    new THREE.MeshLambertMaterial({map:textureRWall})
             );
-			wall.castShadow = true;
-			wall.position.set(wallSize*0.5,-wallSize*0.2,0);
-            scene.add(wall);
+			topWall.castShadow = true;
+			topWall.position.set(wallSize*0.5,-65,wallSize/4.0);
+            scene.add(topWall);
+            // カメラが右壁面を向いている時に左右の壁
+            longWalls = [];
+            rightWall = {
+              width:10, height:wallSize, depth:wallSize*0.2,
+              x:wallSize*0.5, y:-120, z:0
+            }
+            longWalls.push(rightWall);
+            leftWall = {
+              width:10, height:wallSize, depth:wallSize*0.2,
+              x:wallSize*0.5, y:-10, z:0
+            }
+            longWalls.push(leftWall);
+            longWalls.forEach(function(status) {
+			    wall = new THREE.Mesh(
+			        new THREE.CubeGeometry(status.width,status.height,status.depth),
+			        new THREE.MeshLambertMaterial({map:textureLLWall})
+                );
+			    wall.castShadow = true;
+			    wall.position.set(status.x,status.y,status.z);
+                wall.rotation.set(Math.PI/2.0,0,0);
+                scene.add(wall);
+            });
         }
 
         // 左壁面の生成
@@ -607,6 +631,31 @@
             scene.add( cubeMesh );
             cubeMesh.position.set(0, -90, -100);
             cubeMesh.scale.set(1, 1.4, 1);
+        }
+        // 恐竜2,3の生成
+        function createDinasaur23(){
+            // 長方形6面のマテリアルを別々に設定
+            var materials = [
+                transparentMaterial,
+                transparentMaterial,
+                transparentMaterial,
+                transparentMaterial,
+                new THREE.MeshBasicMaterial( { map:textureDinasaur23 ,transparent:true}),
+                transparentMaterial
+            ];
+            // 恐竜2 (画面上部)
+            var cubeSidesMaterial = new THREE.MultiMaterial( materials );
+            var cubeGeometry = new THREE.CubeGeometry( 120, 160, 1);
+            var cubeMesh = new THREE.Mesh( cubeGeometry, cubeSidesMaterial );
+            scene.add( cubeMesh );
+            cubeMesh.position.set(-130, 180, -70);
+            cubeMesh.rotation.set(Math.PI/2.0, 0, 0);
+            // 恐竜3 (画面右)
+            cubeGeometry = new THREE.CubeGeometry( 120, 160, 1);
+            cubeMesh = new THREE.Mesh( cubeGeometry, cubeSidesMaterial );
+            scene.add( cubeMesh );
+            cubeMesh.position.set(160, -110, -80);
+            cubeMesh.rotation.set(Math.PI/2.0, -Math.PI/2.0, 0);
         }
         // 富士山の生成
         function createMtFuji(){
