@@ -257,8 +257,8 @@
         textureDinasaur23 = tLoader.load('images/dinosaur02.png',createDinasaur23);
         createMtFuji2();
         createSea();
-        var mainVisualMeshL = createMainVisual();
-        var mainVisualMeshR = createMainVisual();
+        var mainVisualMeshL = createMainVisual(1);
+        var mainVisualMeshR = createMainVisual(-1);
 
 		var loader = new THREE.ColladaLoader();
 		loader.options.convertUpAxis = true;
@@ -734,7 +734,7 @@
             scene.add(sea);
         }
 
-        function createMainVisual(){
+        function createMainVisual(phase){
             wallSize = height*0.6;
             var materials = [
                 transparentMaterial,
@@ -748,7 +748,7 @@
             var cubeGeometry = new THREE.CubeGeometry(wallSize, wallSize*1.3, 1);
             mainVisualMesh = new THREE.Mesh(cubeGeometry, cubeSidesMaterial);
             scene.add( mainVisualMesh);
-            mainVisualMesh.position.set(0, 0, wallSize*0.5);
+            mainVisualMesh.position.set(0, 0, wallSize*0.5+phase);
             mainVisualMesh.scale.set(1, 1, 1);
             return mainVisualMesh;
         }
