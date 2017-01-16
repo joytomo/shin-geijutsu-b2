@@ -285,6 +285,13 @@
 		renderer.shadowMap.enabled = true;
 		document.getElementById('stage').appendChild(renderer.domElement);
 
+        // 画面リサイズに対応
+        window.addEventListener( 'resize', function(){
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+        }, false );
+
         // 毎フレーム呼び出される関数
 		function render(){
             moveCamera(); // スクロールに合わせたカメラの視点変更
