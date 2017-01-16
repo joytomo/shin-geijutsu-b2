@@ -737,7 +737,7 @@
                 transparentMaterial
             ];
             var cubeSidesMaterial = new THREE.MultiMaterial(materials);
-            var cubeGeometry = new THREE.CubeGeometry(wallSize, wallSize*1.5, 1);
+            var cubeGeometry = new THREE.CubeGeometry(width, width*0.7, 1);
             mainVisualMesh = new THREE.Mesh(cubeGeometry, cubeSidesMaterial);
             scene.add( mainVisualMesh);
             mainVisualMesh.position.set(0, 0, wallSize*0.5);
