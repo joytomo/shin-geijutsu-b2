@@ -255,9 +255,9 @@
         transparentMaterial = new THREE.MeshPhongMaterial( { transparent : true, opacity: 0.0 } ); // 透明なマテリアル。グラフィック素材用
         textureDinasaur1 = tLoader.load('images/dinosaur01.png',createDinasaur1);
         textureDinasaur23 = tLoader.load('images/dinosaur02.png',createDinasaur23);
-        //createMtFuji();
         createMtFuji2();
         createSea();
+        var mainVisualMesh = createMainVisual();
 
 		var loader = new THREE.ColladaLoader();
 		loader.options.convertUpAxis = true;
@@ -301,6 +301,7 @@
 
         // 毎フレーム呼び出される関数
 		function render(){
+            mainVisualMesh.position.z = height*0.6*0.5-scrollAmount;
             moveCamera(); // スクロールに合わせたカメラの視点変更
             requestAnimationFrame(render);
 			renderer.render(scene, camera);
@@ -721,6 +722,25 @@
 			sea.castShadow = true;
 			sea.position.set(0,-height*0.3,0);
             scene.add(sea);
+        }
+
+        function createMainVisual(){
+            wallSize = height*0.6;
+            var materials = [
+                transparentMaterial,
+                transparentMaterial,
+                transparentMaterial,
+                transparentMaterial,
+                new THREE.MeshBasicMaterial({map:new THREE.ImageUtils.loadTexture('main_visual/DM.jpg') ,transparent:true}),
+                transparentMaterial
+            ];
+            var cubeSidesMaterial = new THREE.MultiMaterial(materials);
+            var cubeGeometry = new THREE.CubeGeometry(wallSize, wallSize*1.5, 1);
+            mainVisualMesh = new THREE.Mesh(cubeGeometry, cubeSidesMaterial);
+            scene.add( mainVisualMesh);
+            mainVisualMesh.position.set(0, 0, wallSize*0.5);
+            mainVisualMesh.scale.set(1, 1, 1);
+            return mainVisualMesh;
         }
 
         // 乱数を返却
