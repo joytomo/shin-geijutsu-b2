@@ -404,13 +404,14 @@
             // コピーした時のおまじない。これがないとコピーに施した変更が反映されない
             textureLSWall.needsUpdate = true;
             textureLLWall.needsUpdate = true;
-            textureRWall.needsUpdate = true;
+            textureRSWall.needsUpdate = true;
+            textureRLWall.needsUpdate = true;
             textureFWall.needsUpdate = true;
             // 繰り返し回数の設定
             textureLSWall.repeat.set( 5, 2 );
             textureLLWall.repeat.set( 2, 8 );
             textureRSWall.repeat.set( 8, 1 );
-            textureRLWall.repeat.set( 16, 1 );
+            textureRLWall.repeat.set( 16, 8 );
             textureFWall.repeat.set( 1, 12 );
             // 壁面の生成
             createTopWall();
