@@ -408,7 +408,8 @@
             // 繰り返し回数の設定
             textureLSWall.repeat.set( 5, 2 );
             textureLLWall.repeat.set( 2, 8 );
-            textureRWall.repeat.set( 8, 1 );
+            textureRSWall.repeat.set( 8, 1 );
+            textureRLWall.repeat.set( 16, 1 );
             textureFWall.repeat.set( 1, 12 );
             // 壁面の生成
             createTopWall();
@@ -443,7 +444,7 @@
             // カメラが右壁面を向いている時に上側の壁
 			topWall = new THREE.Mesh(
 			    new THREE.CubeGeometry(10,wallSize*0.10,wallSize),
-			    new THREE.MeshLambertMaterial({map:textureRWall})
+			    new THREE.MeshLambertMaterial({map:textureRSWall})
             );
 			topWall.castShadow = true;
 			topWall.position.set(wallSize*0.5,-wallSize*0.25,wallSize/2.0);
@@ -463,7 +464,7 @@
             longWalls.forEach(function(status) {
 			    wall = new THREE.Mesh(
 			        new THREE.CubeGeometry(status.width,status.height,status.depth),
-			        new THREE.MeshLambertMaterial({map:textureLLWall})
+			        new THREE.MeshLambertMaterial({map:textureRLWall})
                 );
 			    wall.castShadow = true;
 			    wall.position.set(status.x,status.y,status.z);
