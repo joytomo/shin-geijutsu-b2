@@ -257,7 +257,8 @@
         textureDinasaur23 = tLoader.load('images/dinosaur02.png',createDinasaur23);
         createMtFuji2();
         createSea();
-        var mainVisualMesh = createMainVisual();
+        var mainVisualMeshL = createMainVisual();
+        var mainVisualMeshR = createMainVisual();
 
 		var loader = new THREE.ColladaLoader();
 		loader.options.convertUpAxis = true;
@@ -301,7 +302,8 @@
 
         // 毎フレーム呼び出される関数
 		function render(){
-            mainVisualMesh.position.z = height*0.6*0.5-scrollAmount;
+            mainVisualMeshL.position.x = 0-scrollAmount*0.5;
+            mainVisualMeshR.position.x = 0+scrollAmount*0.5;
             moveCamera(); // スクロールに合わせたカメラの視点変更
             requestAnimationFrame(render);
 			renderer.render(scene, camera);
