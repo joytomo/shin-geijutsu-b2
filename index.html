@@ -422,12 +422,12 @@
         // 天井の生成
         function createTopWall() {
             wallSize = height*0.5;
-			beamGeometry = new THREE.CubeGeometry(wallSize*0.03 ,wallSize*0.03,wallSize);
+			beamGeometry = new THREE.CubeGeometry(wallSize*0.03 ,wallSize*0.03,wallSize*2);
 			beamMaterial = new THREE.MeshLambertMaterial({color:0xffff00});
             for(i=0; i<6; i++) {
                beam = new THREE.Mesh(beamGeometry, beamMaterial);
 			   beam.castShadow = true;
-		       beam.position.set(wallSize*0.4-wallSize/6*i,wallSize*0.5 ,0);
+		       beam.position.set(wallSize*0.4-wallSize/6*i,wallSize*0.5 ,wallSize*0.5);
                scene.add(beam);
             }
             wallBeamGeometry = new THREE.CubeGeometry(wallSize, wallSize*0.05 ,wallSize*0.05);
@@ -488,6 +488,11 @@
               x:-wallSize*0.5, y:0, z:wallSize*0.4
             }
             longWalls.push(leftWall);
+            superLeftWall = {
+              width:10, height:wallSize, depth:wallSize*0.2,
+              x:-wallSize*0.5, y:0, z:wallSize*0./
+            }
+            longWalls.push(superLeftWall);
             buttomWall = {
               width:10, height:wallSize*0.1, depth:wallSize*0.6,
               x:-wallSize*0.5, y:-wallSize*0.45, z:0
@@ -610,11 +615,11 @@
             scene.add(rightFloor);
             // 正面向かって手前の床
 			frontFloor = new THREE.Mesh(
-			    new THREE.CubeGeometry(wallSize,10,poolRatio/2.0*wallSize),
+			    new THREE.CubeGeometry(wallSize,10,poolRatio*1.5*wallSize),
                 wallMaterial
             );
 			frontFloor.castShadow = true;
-			frontFloor.position.set(0,-0.5*wallSize,(0.5-poolRatio/4.0)*wallSize);
+			frontFloor.position.set(0,-0.5*wallSize,(0.5-poolRatio/6.0)*wallSize);
             scene.add(frontFloor);
             // 正面向かって奥の床
 			backFloor = new THREE.Mesh(
