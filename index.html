@@ -255,6 +255,7 @@
         transparentMaterial = new THREE.MeshPhongMaterial( { transparent : true, opacity: 0.0 } ); // 透明なマテリアル。グラフィック素材用
         textureDinasaur1 = tLoader.load('images/dinosaur01.png',createDinasaur1);
         textureDinasaur23 = tLoader.load('images/dinosaur02.png',createDinasaur23);
+        createCurtain();
         createMtFuji2();
         createSea();
         var mainVisualMeshL = createMainVisual(1);
@@ -524,6 +525,40 @@
 			    wall.position.set(status.x,status.y,status.z);
                 scene.add(wall);
             });
+        }
+
+        // カーテンの生成
+        function createCurtain() {
+            wallSize = height*0.5;
+			curtainMaterial = new THREE.MeshLambertMaterial({color:0x880000});
+            curtainRightTop = new THREE.Mesh(
+                new THREE.CylinderGeometry(wallSize*0.05, wallSize*0.02 ,wallSize*0.4),
+                curtainMaterial
+            );
+		    curtainRightTop.position.set(-wallSize*0.5, wallSize*0.1, -wallSize*0.3);
+			curtainRightTop.castShadow = true;
+            scene.add(curtainRightTop);
+            curtainRightButtom = new THREE.Mesh(
+                new THREE.CylinderGeometry(wallSize*0.02, wallSize*0.05, wallSize*0.4),
+                curtainMaterial
+            );
+		    curtainRightButtom.position.set(-wallSize*0.5, -wallSize*0.2, -wallSize*0.3);
+			curtainRightButtom.castShadow = true;
+            scene.add(curtainRightButtom);
+            curtainLeftTop = new THREE.Mesh(
+                new THREE.CylinderGeometry(wallSize*0.05, wallSize*0.02 ,wallSize*0.4),
+                curtainMaterial
+            );
+		    curtainLeftTop.position.set(-wallSize*0.5, wallSize*0.1, wallSize*0.3);
+			curtainLeftTop.castShadow = true;
+            scene.add(curtainLeftTop);
+            curtainLeftButtom = new THREE.Mesh(
+                new THREE.CylinderGeometry(wallSize*0.02, wallSize*0.05, wallSize*0.4),
+                curtainMaterial
+            );
+		    curtainLeftButtom.position.set(-wallSize*0.5, -wallSize*0.2, wallSize*0.3);
+			curtainLeftButtom.castShadow = true;
+            scene.add(curtainLeftButtom);
         }
 
         // 正面壁面の生成
