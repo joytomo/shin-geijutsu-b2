@@ -253,8 +253,9 @@
         var tLoader = new THREE.TextureLoader();
         texture = tLoader.load('images/wall01.png',createWalls);
         transparentMaterial = new THREE.MeshPhongMaterial( { transparent : true, opacity: 0.0 } ); // 透明なマテリアル。グラフィック素材用
-        textureDinasaur1 = tLoader.load('images/dinosaur01.png',createDinasaur1);
+        textureDinasaur1 = tLoader.load('images/dinosaur01.png',createDinasaur1); // 恐竜1を読み込んだあと炎を読み込む
         textureDinasaur23 = tLoader.load('images/dinosaur02.png',createDinasaur23);
+        startFireAnimation = false; // 炎のアニメーション開始フラグ
         createCurtain();
         createMtFuji2();
         createSea();
@@ -305,6 +306,7 @@
 		function render(){
             mainVisualMeshL.position.x = 0-scrollAmount*0.5;
             mainVisualMeshR.position.x = 0+scrollAmount*0.5;
+            if(startFireAnimation) animateFire(); // 炎のアニメーション
             moveCamera(); // スクロールに合わせたカメラの視点変更
             requestAnimationFrame(render);
 			renderer.render(scene, camera);
@@ -690,12 +692,13 @@
                 new THREE.MeshBasicMaterial( { map:textureDinasaur1 ,transparent:true}),
                 transparentMaterial
             ];
-            var cubeSidesMaterial = new THREE.MultiMaterial( materials );
-            var cubeGeometry = new THREE.CubeGeometry( wallSize*0.25, wallSize*0.25, 1);
-            var cubeMesh = new THREE.Mesh( cubeGeometry, cubeSidesMaterial );
-            scene.add( cubeMesh );
-            cubeMesh.position.set(0, -wallSize*0.32, -wallSize*0.35);
-            cubeMesh.scale.set(1, 1.4, 1);
+            var dinasaur1SidesMaterial = new THREE.MultiMaterial( materials );
+            var dinasaur1Geometry = new THREE.CubeGeometry( wallSize*0.25, wallSize*0.25, 1);
+            dinasaur1Mesh = new THREE.Mesh( dinasaur1Geometry, dinasaur1SidesMaterial );
+            scene.add( dinasaur1Mesh );
+            dinasaur1Mesh.position.set(0, -wallSize*0.32, -wallSize*0.35);
+            dinasaur1Mesh.scale.set(1, 1.4, 1);
+            textureFire = tLoader.load('images/fire01.png',createFire);
         }
         // 恐竜2,3の生成
         function createDinasaur23(){
@@ -722,6 +725,35 @@
             scene.add( cubeMesh );
             cubeMesh.position.set(wallSize*0.55, -wallSize*0.35, -wallSize*0.25);
             cubeMesh.rotation.set(Math.PI/2.0, -Math.PI/2.0, 0);
+        }
+        // 炎の生成
+        function createFire(){
+            startFireAnimation = true;
+            wallSize = height*0.5;
+            // 長方形6面のマテリアルを別々に設定
+            var materials = [
+                transparentMaterial,
+                transparentMaterial,
+                transparentMaterial,
+                transparentMaterial,
+                new THREE.MeshBasicMaterial( { map:textureFire ,transparent:true}),
+                transparentMaterial
+            ];
+            // 炎
+            var fireSidesMaterial = new THREE.MultiMaterial( materials );
+            var fireGeometry = new THREE.CubeGeometry( wallSize*0.10, wallSize*0.10, 1);
+            fireMesh = new THREE.Mesh( fireGeometry, fireSidesMaterial );
+            fireMesh.position.set( dinasaur1Mesh.position.x + wallSize*0.1, dinasaur1Mesh.position.y + wallSize*0.1, dinasaur1Mesh.position.z - wallSize*0.05 );
+            scene.add( fireMesh );
+        }
+        // 炎のアニメーション
+        function animateFire(){
+            if ( fireMesh.position.x > wallSize ){
+                fireMesh.position.set(dinasaur1Mesh.position.x + wallSize*0.1, dinasaur1Mesh.position.y + wallSize*0.1, dinasaur1Mesh.position.z - wallSize*0.05);
+            }
+            else{
+                fireMesh.position.x += 1;
+            }
         }
         // 富士山の生成
         function createMtFuji(){
