@@ -340,34 +340,35 @@
             if(levelNow != level){
                 level = levelNow; // レベルを更新
                 document.getElementById("display-level").textContent = "level : " + level.toString(); // デバッグ用枠にレベルを表示
+                wallSize = height*0.5;
                 // カメラの位置と向きの目標値を変更
                 switch(level){
                     case 0:
-                        cameraPosComp.set(0,0,500);
+                        cameraPosComp.set(0,0,wallSize*1.6);
                         cameraDirComp.set(0,0,-1);
                         break;
                     case 1:
-                        cameraPosComp.set(0,0,400);
+                        cameraPosComp.set(0,0,wallSize);
                         cameraDirComp.set(0,0,-1);
                         break;
                     case 2:
-                        cameraPosComp.set(150,0,0);
+                        cameraPosComp.set(wallSize*0.5,0,0);
                         cameraDirComp.set(-1,0,0);
                         break;
                     case 3:
-                        cameraPosComp.set(0,150,0);
+                        cameraPosComp.set(0,wallSize*0.5,0);
                         cameraDirComp.set(0,-1,0);
                         break;
                     case 4:
-                        cameraPosComp.set(-150,0,0);
+                        cameraPosComp.set(-wallSize*0.5,0,0);
                         cameraDirComp.set(1,0,0);
                         break;
                     case 5:
-                        cameraPosComp.set(0,-150,0);
+                        cameraPosComp.set(0,-wallSize*0.5,0);
                         cameraDirComp.set(0,1,0);
                         break;
                     case 6:
-                        cameraPosComp.set(0,0,400);
+                        cameraPosComp.set(0,0,wallSize*1.5);
                         cameraDirComp.set(0,0,-1);
                         break;
                 }
