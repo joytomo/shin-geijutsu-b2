@@ -314,8 +314,8 @@
             mainVisualMeshR.position.x = 0+scrollAmount*0.5;
             if(startFireAnimation) animateFire(); // 炎のアニメーション
             if(startCloudAnimation) {
-              cloudMesh1.move;
-              cloudMesh2.move;
+              cloudMesh1.move();
+              cloudMesh2.move();
             };
             moveCamera(); // スクロールに合わせたカメラの視点変更
             requestAnimationFrame(render);
