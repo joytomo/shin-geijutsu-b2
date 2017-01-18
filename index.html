@@ -257,7 +257,9 @@
         textureDinosaur23 = tLoader.load('images/dinosaur02.png',createDinosaur23);
         startFireAnimation = false; // 炎のアニメーション開始フラグ
         startCloudAnimation = false;
-        textureCloud = tLoader.load('images/cloud01.png',createCloud);
+        //textureCloud = tLoader.load('images/cloud01.png',createCloud);
+        textureCloud = tLoader.load('images/cloud01.png');
+        createCloud(textureCloud);
         createCurtain();
         createMtFuji2();
         createSea();
@@ -309,7 +311,7 @@
             mainVisualMeshL.position.x = 0-scrollAmount*0.5;
             mainVisualMeshR.position.x = 0+scrollAmount*0.5;
             if(startFireAnimation) animateFire(); // 炎のアニメーション
-            if(startCloudAnimation) animateCloud();
+            if(startCloudAnimation) animateCloud(cloudMesh);
             moveCamera(); // スクロールに合わせたカメラの視点変更
             requestAnimationFrame(render);
 			renderer.render(scene, camera);
@@ -765,30 +767,30 @@
         }
 
         // 雲
-        function createCloud(){
+        function createCloud(textureCloud){
             startCloudAnimation = true;
             cloudSize = height*0.5;
-            var materials = [
+            cloudSidesMaterial = new THREE.MultiMaterial([
                 transparentMaterial,
                 transparentMaterial,
                 transparentMaterial,
                 transparentMaterial,
                 new THREE.MeshBasicMaterial({map:textureCloud ,transparent:true}),
                 transparentMaterial
-            ];
-            var cloudSidesMaterial = new THREE.MultiMaterial(materials );
-            var cloudGeometry = new THREE.CubeGeometry(cloudSize, cloudSize*0.5, 1);
+            ]);
+            cloudGeometry = new THREE.CubeGeometry(cloudSize, cloudSize*0.5, 1);
             cloudMesh = new THREE.Mesh(cloudGeometry, cloudSidesMaterial);
-            cloudMesh.position.set(height*0.5, height*0.1, -height);
+            cloudMesh.positionInit = function(){
+                this.position.set(height*0.5, height*0.1, -height);
+            }
+            cloudMesh.positionInit();
             scene.add(cloudMesh);
         }
 
-        function animateCloud(){
-            if (cloudMesh.position.x < -height){
-                cloudMesh.position.set(height, height*0.1, -height);
-            }
-            else{
-                cloudMesh.position.x -= 1;
+        function animateCloud(thisMesh){
+            thisMesh.position.x -= 0.2;
+            if (thisMesh.position.x < -height){
+                thisMesh.positionInit();
             }
         }
 
