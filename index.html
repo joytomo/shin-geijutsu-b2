@@ -495,11 +495,16 @@
               x:-wallSize*0.5, y:0, z:wallSize*0.4
             }
             longWalls.push(leftWall);
-            superLeftWall = {
+            leftWall2 = {
               width:10, height:wallSize, depth:wallSize*0.2,
               x:-wallSize*0.5, y:0, z:wallSize*0.6
             }
-            longWalls.push(superLeftWall);
+            longWalls.push(leftWall2);
+            leftWall3 = {
+              width:10, height:wallSize, depth:wallSize*0.2,
+              x:-wallSize*0.5, y:0, z:wallSize*0.8
+            }
+            longWalls.push(leftWall3);
             buttomWall = {
               width:10, height:wallSize*0.1, depth:wallSize*0.6,
               x:-wallSize*0.5, y:-wallSize*0.45, z:0
@@ -656,11 +661,11 @@
             scene.add(rightFloor);
             // 正面向かって手前の床
 			frontFloor = new THREE.Mesh(
-			    new THREE.CubeGeometry(wallSize,10,poolRatio*1.5*wallSize),
+			    new THREE.CubeGeometry(wallSize,10,poolRatio*2*wallSize),
                 wallMaterial
             );
 			frontFloor.castShadow = true;
-			frontFloor.position.set(0,-0.5*wallSize,(0.5-poolRatio/6.0)*wallSize);
+			frontFloor.position.set(0,-0.5*wallSize,(0.5-poolRatio/6.0)*wallSize*1.25);
             scene.add(frontFloor);
             // 正面向かって奥の床
 			backFloor = new THREE.Mesh(
