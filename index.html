@@ -256,6 +256,8 @@
         textureDinosaur1 = tLoader.load('images/dinosaur01.png',createDinosaur1); // 恐竜1を読み込んだあと炎を読み込む
         textureDinosaur23 = tLoader.load('images/dinosaur02.png',createDinosaur23);
         startFireAnimation = false; // 炎のアニメーション開始フラグ
+        startCloudAnimation = false;
+        textureCloud = tLoader.load('images/cloud01.png',createCloud);
         createCurtain();
         createMtFuji2();
         createSea();
@@ -307,6 +309,7 @@
             mainVisualMeshL.position.x = 0-scrollAmount*0.5;
             mainVisualMeshR.position.x = 0+scrollAmount*0.5;
             if(startFireAnimation) animateFire(); // 炎のアニメーション
+            if(startCloudAnimation) animateCloud();
             moveCamera(); // スクロールに合わせたカメラの視点変更
             requestAnimationFrame(render);
 			renderer.render(scene, camera);
@@ -760,6 +763,35 @@
                 fireMesh.position.x += 1;
             }
         }
+
+        // 雲
+        function createCloud(){
+            startCloudAnimation = true;
+            cloudSize = height*0.5;
+            var materials = [
+                transparentMaterial,
+                transparentMaterial,
+                transparentMaterial,
+                transparentMaterial,
+                new THREE.MeshBasicMaterial({map:textureCloud ,transparent:true}),
+                transparentMaterial
+            ];
+            var cloudSidesMaterial = new THREE.MultiMaterial(materials );
+            var cloudGeometry = new THREE.CubeGeometry(cloudSize, cloudSize*0.5, 1);
+            cloudMesh = new THREE.Mesh(cloudGeometry, cloudSidesMaterial);
+            cloudMesh.position.set(height*0.5, height*0.1, -height);
+            scene.add(cloudMesh);
+        }
+
+        function animateCloud(){
+            if (cloudMesh.position.x < -height){
+                cloudMesh.position.set(height, height*0.1, -height);
+            }
+            else{
+                cloudMesh.position.x -= 1;
+            }
+        }
+
         // 富士山の生成
         function createMtFuji(){
             fujiHeight = 250;
