@@ -257,9 +257,11 @@
         textureDinosaur23 = tLoader.load('images/dinosaur02.png',createDinosaur23);
         startFireAnimation = false; // 炎のアニメーション開始フラグ
         startCloudAnimation = false;
-        //textureCloud = tLoader.load('images/cloud01.png',createCloud);
         textureCloud = tLoader.load('images/cloud01.png');
-        createCloud(textureCloud);
+        var cloudMesh1 = createCloud(textureCloud, height*0.5, height*0.1, -height, height*0.5, height*0.25, "left");
+        scene.add(cloudMesh1);
+        var cloudMesh2 = createCloud(textureCloud, -height*0.5, height*0.3, -height, height*0.2, height*0.1, "right");
+        scene.add(cloudMesh2);
         createCurtain();
         createMtFuji2();
         createSea();
@@ -311,7 +313,10 @@
             mainVisualMeshL.position.x = 0-scrollAmount*0.5;
             mainVisualMeshR.position.x = 0+scrollAmount*0.5;
             if(startFireAnimation) animateFire(); // 炎のアニメーション
-            if(startCloudAnimation) animateCloud(cloudMesh);
+            if(startCloudAnimation) {
+              cloudMesh1.move;
+              cloudMesh2.move;
+            };
             moveCamera(); // スクロールに合わせたカメラの視点変更
             requestAnimationFrame(render);
 			renderer.render(scene, camera);
@@ -767,9 +772,8 @@
         }
 
         // 雲
-        function createCloud(textureCloud){
+        function createCloud(textureCloud, x, y, z, cloudWidth, cloudHeight, direction){
             startCloudAnimation = true;
-            cloudSize = height*0.5;
             cloudSidesMaterial = new THREE.MultiMaterial([
                 transparentMaterial,
                 transparentMaterial,
@@ -778,20 +782,29 @@
                 new THREE.MeshBasicMaterial({map:textureCloud ,transparent:true}),
                 transparentMaterial
             ]);
-            cloudGeometry = new THREE.CubeGeometry(cloudSize, cloudSize*0.5, 1);
+            cloudGeometry = new THREE.CubeGeometry(cloudWidth, cloudHeight, 1);
             cloudMesh = new THREE.Mesh(cloudGeometry, cloudSidesMaterial);
+            if (direction=="right") {
+              cloudMesh.rotation.z = Math.PI;
+            }
             cloudMesh.positionInit = function(){
-                this.position.set(height*0.5, height*0.1, -height);
+                this.position.set(x, y, z);
+            }
+            cloudMesh.move = function(){
+              if (direction=="right") {
+                this.position.x += 0.2;
+                if (this.position.x > height){
+                  this.positionInit();
+                }
+              }else{
+                this.position.x -= 0.2;
+                if (this.position.x < -height){
+                  this.positionInit();
+                }
+              }
             }
             cloudMesh.positionInit();
-            scene.add(cloudMesh);
-        }
-
-        function animateCloud(thisMesh){
-            thisMesh.position.x -= 0.2;
-            if (thisMesh.position.x < -height){
-                thisMesh.positionInit();
-            }
+            return cloudMesh;
         }
 
         // 富士山の生成
