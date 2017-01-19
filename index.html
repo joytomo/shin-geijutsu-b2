@@ -253,11 +253,11 @@
         var tLoader = new THREE.TextureLoader();
         texture = tLoader.load('images/wall01.png',createWalls);
         transparentMaterial = new THREE.MeshPhongMaterial( { transparent : true, opacity: 0.0 } ); // 透明なマテリアル。グラフィック素材用
-        textureDinosaur1 = tLoader.load('images/dinosaur01.png',createDinosaur1); // 恐竜1を読み込んだあと炎を読み込む
-        textureDinosaur23 = tLoader.load('images/dinosaur02.png',createDinosaur23);
+        textureDinosaur1 = tLoader.load('images/dinosaur01_small.png',createDinosaur1); // 恐竜1を読み込んだあと炎を読み込む
+        textureDinosaur23 = tLoader.load('images/dinosaur02_small.png',createDinosaur23);
         startFireAnimation = false; // 炎のアニメーション開始フラグ
         startCloudAnimation = false;
-        textureCloud = tLoader.load('images/cloud01.png');
+        textureCloud = tLoader.load('images/cloud01_small.png');
         var cloudMesh1 = createCloud(textureCloud, height*0.5, height*0.1, -height, height*0.5, height*0.25, "left");
         scene.add(cloudMesh1);
         var cloudMesh2 = createCloud(textureCloud, -height*0.5, height*0.3, -height, height*0.2, height*0.1, "right");
@@ -713,7 +713,7 @@
             scene.add( dinosaur1Mesh );
             dinosaur1Mesh.position.set(0, -wallSize*0.32, -wallSize*0.35);
             dinosaur1Mesh.scale.set(1, 1.4, 1);
-            textureFire = tLoader.load('images/fire01.png',createFire);
+            textureFire = tLoader.load('images/fire01_small.png',createFire);
         }
         // 恐竜2,3の生成
         function createDinosaur23(){
@@ -834,7 +834,7 @@
             var mtFuji;
             var loader = THREE.ColladaLoader();
             loader.options.convertUpAxis = true;
-            loader.load('models/mt_fuji.dae', function(collada) {
+            loader.load('models/mt_fuji_small.dae', function(collada) {
                 mtFuji = collada.scene;
                 mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = height/30;
                 mtFuji.position.set(fujiSize*2,-fujiSize*0.6,-fujiSize*5);
