@@ -625,31 +625,46 @@
         // 天井と右壁面から見える空間の生成
         function createOverWallSpace() {
             wallSize = height*0.5;
-			wallMaterial = new THREE.MeshLambertMaterial({color:0xeeeeee});
+            walls = [];
             // 正面の窓から上の壁面
-			frontWall0 = new THREE.Mesh(
-			    new THREE.CubeGeometry(wallSize,wallSize,10),
-                wallMaterial
-            );
-			frontWall0.castShadow = true;
-			frontWall0.position.set(0,wallSize,-wallSize*0.5);
-            scene.add(frontWall0);
+            walls.push({
+              width:wallSize, height:wallSize, depth:10,
+              x:0, y:wallSize, z:-wallSize*0.5
+            });
             // 正面の窓から右に広がる壁面
-			frontWall1 = new THREE.Mesh(
-			    new THREE.CubeGeometry(wallSize,wallSize*3,10),
-                wallMaterial
-            );
-			frontWall1.castShadow = true;
-			frontWall1.position.set(wallSize,wallSize,-wallSize*0.5);
-            scene.add(frontWall1);
+            walls.push({
+              width:wallSize, height:wallSize*2, depth:10,
+              x:wallSize, y:wallSize*0.5, z:-wallSize*0.5
+            });
+            // 右の奥の壁面
+            walls.push({
+              width:10, height:wallSize*2, depth:wallSize*3,
+              x:wallSize*1.5, y:wallSize*0.5, z:wallSize
+            });
+            // 右の空間の床
+            walls.push({
+              width:wallSize, height:10, depth:wallSize*3,
+              x:wallSize, y:-wallSize*0.5, z:wallSize
+            });
             // 左の上の壁面
-			leftWall = new THREE.Mesh(
-			    new THREE.CubeGeometry(10,wallSize,wallSize),
-                wallMaterial
-            );
-			leftWall.castShadow = true;
-			leftWall.position.set(-wallSize*0.5,wallSize,.0);
-            scene.add(leftWall);
+            walls.push({
+              width:10, height:wallSize, depth:wallSize*2,
+              x:-wallSize*0.5, y:wallSize, z:wallSize*0.5
+            });
+            // 天井
+            walls.push({
+              width:wallSize*2, height:10, depth:wallSize*3,
+              x:wallSize*0.5, y:wallSize*1.5, z:wallSize
+            });
+            walls.forEach(function(status) {
+			    wall = new THREE.Mesh(
+			        new THREE.CubeGeometry(status.width,status.height,status.depth),
+                    new THREE.MeshLambertMaterial({color:0xeeeeee})
+                );
+			    wall.castShadow = true;
+			    wall.position.set(status.x,status.y,status.z);
+                scene.add(wall);
+            });
         }
 
         // 床(プール)の生成
