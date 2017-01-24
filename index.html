@@ -269,7 +269,8 @@
         var cloudMesh3 = createCloud(textureCloud, -height, height*0.2, -height, height*0.4, height*0.15, "right");
         scene.add(cloudMesh3);
         createCurtain();
-        createMtFuji2();
+        createMtFuji2(height/30, height*2, -height*0.6, -height*5);
+        createMtFuji2(height/50, height, -height*0.1, -height*2);
         createSea();
         var mainVisualMeshL = createMainVisual(1);
         var mainVisualMeshR = createMainVisual(-1);
@@ -851,15 +852,14 @@
             scene.add(bottomOfMtFuji);
         }
 
-        function createMtFuji2() {
-          fujiSize = height;
+        function createMtFuji2(x, y, z, scale) {
             var mtFuji;
             var loader = THREE.ColladaLoader();
             loader.options.convertUpAxis = true;
             loader.load('models/mt_fuji_small.dae', function(collada) {
                 mtFuji = collada.scene;
-                mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = height/30;
-                mtFuji.position.set(fujiSize*2,-fujiSize*0.6,-fujiSize*5);
+                mtFuji.scale.x = mtFuji.scale.y = mtFuji.scale.z = scale;
+                mtFuji.position.set(x, y, z);
                 scene.add(mtFuji);
             });
         }
