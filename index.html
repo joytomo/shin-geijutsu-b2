@@ -266,6 +266,8 @@
         scene.add(cloudMesh1);
         var cloudMesh2 = createCloud(textureCloud, -height*0.5, height*0.3, -height, height*0.2, height*0.1, "right");
         scene.add(cloudMesh2);
+        var cloudMesh3 = createCloud(textureCloud, -height, height*0.2, -height, height*0.4, height*0.15, "right");
+        scene.add(cloudMesh3);
         createCurtain();
         createMtFuji2();
         createSea();
@@ -320,6 +322,7 @@
             if(startCloudAnimation) {
               cloudMesh1.move();
               cloudMesh2.move();
+              cloudMesh3.move();
             };
             moveCamera(); // スクロールに合わせたカメラの視点変更
             requestAnimationFrame(render);
